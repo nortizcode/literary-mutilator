@@ -15,9 +15,13 @@
 	six pounders gabion mizzenmast marooned Sink me dead men tell no tales yardarm jib Chain Shot. Sail ho brig shrouds
 	mutiny smartly fire in the hole Admiral of the Black gangplank lugger fore.</p>
 
-<p id="thirdParagraph">Lee knave stern scallywag run a rig rutters holystone Pirate Round Blimey lateen sail. Gold Road deadlights parley
+<p id="thirdParagraph" onclick="shuffle();">Lee knave stern scallywag run a rig rutters holystone Pirate Round Blimey lateen sail. Gold Road deadlights parley
 	coxswain crack Jennys tea cup black spot brigantine swab draught American Main. Jolly boat quarter gibbet lass reef
 	Brethren of the Coast hardtack no prey, no pay bilged on her anchor interloper.</p>
+
+		<h2>Fetch Flavored Bacon</h2>
+		<button id="getFetchBacon" class="btn btn-lg btn-danger" onclick="fetchBacon();">Fetch Bacon Pls</button>
+		<div class="m-t-1" id="fetchBacon"></div>
 
 <script>
 	let firstParagraph = document.getElementById("firstParagraph");
@@ -32,6 +36,52 @@
 		secondParagraph.style.fontFamily = "Century Gothic"
 	});
 
+	function shuffle() {
+		//grab paragraph text
+		var txt = document.getElementById("thirdParagraph").textContent;
+
+		//split text into an array of words on the empty spaces
+		var words = txt.split(" ");
+
+		words.map(function(t) {
+			for(i = (words.length - 1); i > 0; i--){
+
+				//create a random number, no greater than the max array index of words
+				var j = Math.floor(Math.random() * (i + 1));
+
+				//swap out each array index with the random number
+				var temp = words[i];
+				words[i] = words[j];
+				words[j] = temp;
+			}
+
+			//join the randomized words and replace the original paragraph
+			document.getElementById("thirdParagraph").textContent = words.join(" ");
+		});
+	}
+
+	/* JavaScript Fetch Request */
+	function fetchBacon() {
+		fetch('https://baconipsum.com/api/?type=meat-and-filler')
+			.then(function(response) {
+
+				//catch any requests that aren't 200 OK
+				if(response.status !== 200) {
+					alert('Sorry. Something happened. :-( Status Code: ' . response.status);
+					return;
+				}
+
+				//grab the response data and output to screen
+				response.json().then(function(data) {
+					document.getElementById("fetchBacon").innerHTML = data;
+				})
+			})
+
+			//catch any fetch errors here
+			.catch(function(err) {
+				alert('Fetch Error :O ', err);
+			})
+	}
 </script>
 </body>
 </html>

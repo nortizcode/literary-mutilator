@@ -1,2 +1,0 @@
-# literary-mutilator
-javascript assignment
